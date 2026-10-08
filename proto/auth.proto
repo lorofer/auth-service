@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package auth;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "be4.auth.proto";
+option java_outer_classname = "AuthProto";
+
+service AuthService {
+  rpc Register (RegisterRequest) returns (TokenResponse);
+  rpc Login (LoginRequest) returns (TokenResponse);
+  rpc ChangePassword (ChangePasswordRequest) returns (google.protobuf.Empty);
+  rpc ResetPassword (ResetPasswordRequest) returns (google.protobuf.Empty);
+  rpc ValidateToken (ValidateTokenRequest) returns (google.protobuf.BoolValue);
+  rpc RefreshToken (RefreshTokenRequest) returns (TokenResponse);
+}
+
+message RegisterRequest {
+  string email = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string phone_number = 4;
+  string password = 5;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message TokenResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message ChangePasswordRequest {
+  string access_token = 1;
+  string old_password = 2;
+  string new_password = 3;
+}
+
+message ResetPasswordRequest {
+  string access_token = 1;
+}
+
+message ValidateTokenRequest {
+  string token = 1;
+}
+
+message RefreshTokenRequest {
+  string refresh_token = 1;
+}
